@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
+from blog.views import (
+    blog_post_detail
+    )
 from .views import (
 	home_page,
  	about_page,
@@ -24,6 +27,8 @@ from .views import (
 urlpatterns = [
     path('', home_page),
     path('admin/', admin.site.urls),
+    #path('blog/', blog_post_detail),
+    path('blog/<str:slug>/', blog_post_detail),
     path('about/', about_page),
     path('contact/', contact_page),
     path('example/', example_page),
