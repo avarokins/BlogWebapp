@@ -7,38 +7,40 @@ from .models import BlogPost
 
 def blog_list_view(request):
 	# Add search functionality
-	template = 'blog_post_list.html'
-	context = {'object_list':[]}
-	return
+	# qs = BlogPost.objects.filter(title__icontains='search_key')
+	qs = BlogPost.objects.all()		# queryset
+	template = 'blog/list.html'
+	context = {'object_list':qs}
+	return render(request,template,context)
 
 
 def blog_create_view(request):
-	template = 'blog_post_create.html'
+	template = 'blog/create.html'
 	context = {'form':None}
-	return
+	return render(request,template,context)
 
 
 def blog_detail_view(request, slug):
 	obj = get_object_or_404(BlogPost, slug=slug)
-	template = 'blog_post_detail.html'
+	template = 'blog/detail.html'
 	context = {'object':obj}
-	return
+	return render(request,template,context)
 
 
 def blog_update_view(request, slug):
 	obj = get_object_or_404(BlogPost, slug=slug)
-	template = 'blog_post_update.html'
+	template = 'blog/update.html'
 	context = {'object':obj,
 				'form':None}
 
 
-	return
+	return render(request,template,context)
 
 
 def blog_delete_view(request, slug):
 	obj = get_object_or_404(BlogPost, slug=slug)
-	template = 'blog_post_delete.html'
+	template = 'blog/delete.html'
 	context = {'object':obj}
 
 
-	return
+	return render(request,template,context)
