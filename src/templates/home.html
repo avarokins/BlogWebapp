@@ -7,17 +7,10 @@
 
 {% block content %}
 
-{{title}}
+<h1>{{title}}</h1>
+{% for post in blog_list %}
+	{% include 'blog/inline.html' with blog_post=post truncate=True %}
+{% endfor %}
 
-{{user}}
-
-{% if user.is_authenticated %}
-	<h3>User Only Data </h3>
-
-	{% for a in my_list %}
-		<li>{{a}}</li>
-	{% endfor %}
-
-{% endif %}
 
 {% endblock %}

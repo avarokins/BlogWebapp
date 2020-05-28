@@ -10,3 +10,13 @@ class BlogPost(models.Model):
 	slug = models.SlugField(unique=True)
 	title = models.CharField(max_length=120)
 	content = models.TextField(null=True, blank=True)
+	publishDate = models.DateTimeField(auto_now=False,auto_now_add=False)
+
+	def get_absolute_url(self):
+		return f"/blog/{self.slug}"
+
+	def get_edit_url(self):
+		return f"/blog/{self.slug}/edit"
+
+	def get_delete_url(self):
+		return f"/blog/{self.slug}/delete/"
