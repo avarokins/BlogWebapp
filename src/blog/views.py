@@ -11,7 +11,7 @@ from .forms import BlogPostModelForm
 def blog_list_view(request):
 	# Add search functionality
 	# qs = BlogPost.objects.filter(title__icontains='search_key')
-	qs = BlogPost.objects.all()		# queryset
+	qs = BlogPost.objects.published()		# queryset
 	template = 'blog/list.html'
 	context = {'object_list':qs}
 	return render(request,template,context)
