@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
@@ -37,21 +37,61 @@ def blog_detail_view(request, slug):
 	context = {'object':obj}
 	return render(request,template,context)
 
-
+@staff_member_required
 def blog_update_view(request, slug):
 	obj = get_object_or_404(BlogPost, slug=slug)
-	template = 'blog/update.html'
-	context = {'object':obj,
-				'form':None}
-
+	form = BlogPostModelForm(request.POST or None, instance=obj)
+	if form.is_valid():
+		form.save()
+	template = 'form.html'
+	context = {'form':form, 
+				'title':f"Update {obj.title}"}
 
 	return render(request,template,context)
 
-
+@staff_member_required
 def blog_delete_view(request, slug):
 	obj = get_object_or_404(BlogPost, slug=slug)
 	template = 'blog/delete.html'
+	if request.method == "POST":
+		obj.delete()
+		return redirect("/blog/")
+
 	context = {'object':obj}
 
-
 	return render(request,template,context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
