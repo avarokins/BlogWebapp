@@ -24,9 +24,10 @@ def blog_list_view(request):
 #@login_required
 @staff_member_required
 def blog_create_view(request):
-	form = BlogPostModelForm(request.POST or None)
+	form = BlogPostModelForm(request.POST or None, request.FILES or None)
+	print(form)
 	if form.is_valid():
-		form.save()
+		obj = form.save(commit=False)
 		obj.user = request.user
 		obj.save()
 		form = BlogPostModelForm() #reinitialize
@@ -44,7 +45,7 @@ def blog_detail_view(request, slug):
 @staff_member_required
 def blog_update_view(request, slug):
 	obj = get_object_or_404(BlogPost, slug=slug)
-	form = BlogPostModelForm(request.POST or None, instance=obj)
+	form = BlogPostModelForm(request.POST or None,request.FILES or None ,instance=obj)
 	if form.is_valid():
 		form.save()
 	template = 'form.html'

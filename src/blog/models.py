@@ -24,6 +24,7 @@ class BlogPost(models.Model):
 	slug = models.SlugField(unique=True)
 	title = models.CharField(max_length=120)
 	content = models.TextField(null=True, blank=True)
+	image = models.ImageField(upload_to='image/',blank=True, null=True)
 	publish_date = models.DateTimeField(auto_now=False,auto_now_add=False,null=True,blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
