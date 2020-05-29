@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.utils import timezone
 from django.http import Http404
 
 # Create your views here.
@@ -11,7 +12,10 @@ from .forms import BlogPostModelForm
 def blog_list_view(request):
 	# Add search functionality
 	# qs = BlogPost.objects.filter(title__icontains='search_key')
-	qs = BlogPost.objects.published()		# queryset
+	qs = BlogPost.objects.all().published()		# queryset
+	if request.user.is_authenticated:
+		my_qs = BlogPost.objects.filter(user=request.user)
+		qs = (qs | my_qs).distinct()
 	template = 'blog/list.html'
 	context = {'object_list':qs}
 	return render(request,template,context)

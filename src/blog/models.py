@@ -6,9 +6,17 @@ User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 
-class BlogPostManager(models.Manager):
+class BlogPostQuerySet(models.QuerySet):
 	def published(self):
-		return self.get_queryset().filter(publishDate__lte=timezone.now)
+		now = timezone.now()
+		return self.filter(publish_date__lte=now)
+
+class BlogPostManager(models.Manager):
+	def get_queryset(self):
+		return BlogPostQuerySet(self.model, using=self._db)
+
+	def published(self):
+		return self.get_queryset().published()
 
 
 class BlogPost(models.Model):
@@ -16,14 +24,14 @@ class BlogPost(models.Model):
 	slug = models.SlugField(unique=True)
 	title = models.CharField(max_length=120)
 	content = models.TextField(null=True, blank=True)
-	publishDate = models.DateTimeField(auto_now=False,auto_now_add=False,null=True,blank=True)
+	publish_date = models.DateTimeField(auto_now=False,auto_now_add=False,null=True,blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
 	objects = BlogPostManager()
 
 	class Meta:
-		ordering=['-publishDate','-updated','-timestamp']
+		ordering=['-publish_date','-updated','-timestamp']
 
 	def get_absolute_url(self):
 		return f"/blog/{self.slug}"

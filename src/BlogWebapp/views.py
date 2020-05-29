@@ -5,7 +5,7 @@ from .forms import ContactForm
 from blog.models import BlogPost
 
 def home_page(request):
-	qs = BlogPost.objects.all()[:5]
+	qs = BlogPost.objects.all().published()[:5]
 	context = {'title':'Welcome to Saini Blogging!',
 				'blog_list':qs}
 	return render( request,'home.html', context )
