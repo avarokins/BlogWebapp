@@ -125,7 +125,7 @@ STATIC_URL = '/static/'
 LOCAL_CDN = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn')
 
 STATIC_ROOT = os.path.join(LOCAL_CDN, 'static')
-STATICFILES_DIR = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static_files')
 ]
 MEDIA_ROOT = os.path.join(LOCAL_CDN, 'media')
